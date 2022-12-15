@@ -192,7 +192,7 @@ int Modify::omitLines(const string lineNumber, string fileName,
   
   if (fileType.compare("java") == 0 || fileType.compare("cpp") == 0) {
     comment = "//";
-  } else if (fileType.compare("py")) {
+  } else if (fileType.compare("py") == 0) {
     comment = "#";
   } else {
     return (1);
