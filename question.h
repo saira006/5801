@@ -4,10 +4,9 @@
 #include "modify.h"
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <time.h>
 #include <vector>
-#include <bits/stdc++.h>
-#include<string>
-#include<time.h>
 
 using namespace std;
 
@@ -15,14 +14,13 @@ class Question {
 
 public:
   // Constructor for question class
-  Question() {};
+  Question(){};
 
-  //Function to generate the questions
-  virtual void generate() = 0;
+  // Function to generate the questions
+  virtual int generate(string fileName, string fileType, int numQuestions) = 0;
 
   // Destructor for question class
-  ~Question() {};
-
+  ~Question(){};
 };
 
 #endif
