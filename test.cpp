@@ -148,5 +148,186 @@ void Test::ModifyTest() {
   {
     fout<<"Test for editing a comment for a grouping with lines : F\n";
   }
+  if(modify->omitLines("4", "main.cpp", "blah")==1)
+  {
+    fout<<"Test for inavlid file type in omission function : P\n";
+  }
+  else
+  {
+    fout<<"Test for inavlid file type in omission function : F\n";
+  }
+  if(modify->omitLines("4", "mai.cpp", "c++")==2)
+  {
+    fout<<"Test for inavlid file in omission function : P\n";
+  }
+  else
+  {
+    fout<<"Test for inavlid file in omission function : F\n";
+  }
+  fout.close();
+}
+
+void Test::FIBTest() {
+  FIB *fib = new FIB();
+  ofstream fout ("FIB_report.txt");
+  fout<<"Report for the Tests of the FIB Class\n\n";
+  if((fib->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for C++ file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for C++ file type : F\n";
+  }
+  if((fib->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for python file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for python file type : F\n";
+  }
+  if((fib->generate("main.cpp","java", 10)) == 0)
+  {
+    fout<<"Test for java file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for java file type : F\n";
+  }
+  
+  if((fib->generate("main.cpp","ruby", 10)) == 1)
+  {
+    fout<<"Test for invalid file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for invalid file type : F\n";
+  }
+    
+  if((fib->generate("blah.cpp","c++", 10)) == 2)
+  {
+    fout<<"Test for file not exists : P\n";
+  }
+  else
+  {
+    fout<<"Test for for file not exists : F\n";
+  }
+  if((fib->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for valid file  : P\n";
+  }
+  else
+  {
+    fout<<"Test for valid file : F\n";
+  }
+  if((fib->generate("main.cpp","c++", 40)) == 3)
+  {
+    fout<<"Test for too many questions  : P\n";
+  }
+  else
+  {
+    fout<<"Test for too many questions : F\n";
+  }
+  if((fib->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for code generating proper fill in the blank questions  : P\n";
+  }
+  else
+  {
+    fout<<"Test for code generating proper fill in the blank questions  : P\n";
+  }
+  if(fib->question_creator("")=="error")
+  {
+    fout<<"Test for empty string  : P\n";
+  }
+  else
+  {
+    fout<<"Test for empty string : F\n";
+  }
+  if(fib->question_creator("blah blah2 blah3")!="")
+  {
+    fout<<"Test for valid question creation  : P\n";
+  }
+  else
+  {
+    fout<<"Test for valid question creation: F\n";
+  }
+  fout.close();
+}
+
+void Test::MultiChoiceTest() {
+  MultiChoice *multi = new MultiChoice();
+  ofstream fout ("MultiChoice_report.txt");
+  fout<<"Report for the Tests of the Multi Class\n\n";
+  if((multi->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for C++ file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for C++ file type : F\n";
+  }
+  if((multi->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for python file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for python file type : F\n";
+  }
+  if((multi->generate("main.cpp","java", 10)) == 0)
+  {
+    fout<<"Test for java file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for java file type : F\n";
+  }
+  
+  if((multi->generate("main.cpp","ruby", 10)) == 1)
+  {
+    fout<<"Test for invalid file type : P\n";
+  }
+  else
+  {
+    fout<<"Test for invalid file type : F\n";
+  }
+    
+  if((multi->generate("blah.cpp","c++", 10)) == 2)
+  {
+    fout<<"Test for file not exists : P\n";
+  }
+  else
+  {
+    fout<<"Test for for file not exists : F\n";
+  }
+  if((multi->generate("main.cpp","c++", 10)) == 0)
+  {
+    fout<<"Test for valid file  : P\n";
+  }
+  else
+  {
+    fout<<"Test for valid file : F\n";
+  }
+  if((multi->generate("main.cpp","c++", 40)) == 3)
+  {
+    fout<<"Test for too many questions  : P\n";
+  }
+  else
+  {
+    fout<<"Test for too many questions : F\n";
+  }
+  string s[2];
+  s[0]="cin>>blah;";
+  s[1]="str2";
+  if(multi->new_question(0,0,s)!="error")
+  {
+    fout<<"Test for valid question generation: P\n";
+  }
+  else
+  {
+    fout<<"Test for valid question generation : F\n";
+  }
   fout.close();
 }

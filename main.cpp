@@ -1,12 +1,16 @@
+#include "fib.h"
 #include "modify.h"
+#include "multichoice.h"
 #include "test.h"
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
 int main() {
-  
+
   // Section for uploading file
   string fileName;
   cout << "Enter file name: ";
@@ -30,71 +34,60 @@ int main() {
       numLines++;
   }
 
+  // extract file type information from file name
+  string fileType = "";
+  int extIdx = fileName.find('.');
+  if (extIdx != std::string::npos)
+    fileType = fileName.substr(extIdx + 1, fileName.size() - extIdx - 1);
+
   int cmd = 0;
   int x = 0;
   Modify *modify = new Modify();
-  while (cmd != 6) { // Continuously looping until exit command (6) chosen
-    // Prompting user with different actions/choices
-    cout << "1. Create Group \n";
-    cout << "2. Delete Group \n";
-    cout << "3. Add Comment \n";
-    cout << "4. Remove Comment \n";
-    cout << "5. Edit Comment  \n";
-    cout << "6. Exit \n";
+  int numQuestions = 0;
+  int choice = 0;
+  while (cmd != 3) {
+    cout << "1. Modify Source Code \n";
+    cout << "2. Generate Questions \n";
+    cout << "3. Exit \n";
     cout << "Enter command: ";
     cin >> cmd;
-
-    int *startEnd = new int[2]; // Keeps track of user inputs
-    Group *group; // Keeps track of the current group
-    string junk; // Keeps track of newlines in input stream
-    string cmt; // Keeps track of user entered comment
-    int groupIndex; // Keeps track index of a Group object in group vector
-
     switch (cmd) {
-    // Section for creating a group of lines
+    // Section for modifying source code
     case 1:
-      startEnd = modify->promptUserGroup(numLines);
-      modify->createGroup(startEnd[0], startEnd[1]);
-      cout << "Group sucessfully created \n";
+      modify->runModify(fileName, numLines, fileType);
       break;
 
-    // Section for deleting a group of lines
+    // Section for generating questions
     case 2:
-      startEnd = modify->promptUserGroup(numLines);
-      modify->deleteGroup(startEnd[0], startEnd[1]);
-      cout << "Group sucessfully deleted \n";
-      break;
+      cout << "Enter number of questions to generate (1-30): ";
+      cin >> numQuestions;
+      while ((numQuestions < 1) || (numQuestions > 30)) {
+        cout << "Invalid number of questions!\n\n";
+        cout << "Enter number of questions to generate (1-30): ";
+        cin >> numQuestions;
+      }
+      cout << "1. Generate Multiple Choice \n";
+      cout << "2. Generate Fill in the Blank \n";
+      cout << "Enter choice: ";
+      cin >> choice;
+      while ((choice < 1) || (choice > 2)) {
+        cout << "Invalid choice!\n\n";
+        cout << "1. Generate Multiple Choice \n";
+        cout << "2. Generate Fill in the Blank \n";
+        cout << "Enter choice: ";
+      }
 
-    // Section for adding a comment to an existing group of lines
+      Question *q;
+      if (choice == 1) {
+        q = new MultiChoice();
+      } else if (choice == 2) {
+        q = new FIB();
+      }
+      
+      x = q->generate(fileName, fileType, numQuestions);
+      cout << "Question generation returned code: " << x << "\n";
+      break;
     case 3:
-      cout << "New Comment: ";
-      getline(cin >> junk, cmt);
-      startEnd = modify->promptUserGroup(numLines);
-      groupIndex = modify->getGroup(startEnd[0], startEnd[1]);
-      x = modify->addComment(cmt, groupIndex);
-      cout << "Comment sucessfully added \n";
-      break;
-
-    // Section for removing a comment to an existing group of lines
-    case 4:
-      startEnd = modify->promptUserGroup(numLines);
-      groupIndex = modify->getGroup(startEnd[0], startEnd[1]);
-      x = modify->removeComment(groupIndex);
-      cout << "Comment sucessfully removed \n";
-      break;
-
-    // Section for editing an existing comment to an existing group of lines
-    case 5:
-      cout << "New Comment: ";
-      getline(cin >> junk, cmt);
-      startEnd = modify->promptUserGroup(numLines);
-      groupIndex = modify->getGroup(startEnd[0], startEnd[1]);
-      x = modify->editComment(cmt, groupIndex);
-      cout << "Comment sucessfully edited \n";
-      break;
-
-    // Section for exiting the program
-    case 6:
       cout << "Exited program \n";
       break;
 
